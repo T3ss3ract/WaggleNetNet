@@ -7,6 +7,31 @@
 RF24Mesh::RF24Mesh( RF24& _radio,RF24Network& _network ): radio(_radio),network(_network) {}
 
 /*****************************************************/
+//plan: master and slave each have unique security IDs
+//send some data and do some logic to verify
+
+uint32_t RF24Mesh::getSecurityStatus(nodeid_t nodeID) {
+  if (getNodeID()) { // if master node, handle later
+    return -1;
+  }
+  else {
+    uint32_t secure_value = ((uint32_t)nodeID ^ securityID);
+    return secure_value;
+    }
+  }
+
+bool RF24MESH::verifySecurity(uint32_t security_value, nodeid_t nodeID) {
+  if(getNodeID()) {
+
+  } //master
+//TODO find a way to
+}
+
+uint32_t updateSecurityID(uint32_t new_value) {
+  //TODO add code here to disseminate the new security value
+}
+
+/******************************/
 
 bool RF24Mesh::begin(uint8_t channel, rf24_datarate_e data_rate, uint32_t timeout) {
     // delay(1); // Found problems w/SPIDEV & ncurses. Without this, getch() returns a stream of garbage
@@ -17,7 +42,7 @@ bool RF24Mesh::begin(uint8_t channel, rf24_datarate_e data_rate, uint32_t timeou
     radio.setDataRate(data_rate);
     network.returnSysMsgs = 1;
 
-    if (getNodeID()) { // Not master node
+    if (getNodeID()) { // Not master node, master nodes have no device ID
         mesh_address = MESH_DEFAULT_ADDRESS;
         if (!renewAddress(timeout))
             return 0;
@@ -427,9 +452,7 @@ void RF24Mesh::DHCP() {
 
     // Get the unique id of the requester
     uint8_t* buffer_pos = &(network.frame_buffer[sizeof(header)]);
-    // nodeid_t from_id = *(nodeid_t*)buffer_pos;
-    nodeid_t from_id;
-    memcpy(&from_id, buffer_pos, sizeof(from_id));
+    nodeid_t from_id = *(nodeid_t*)buffer_pos;
 
     #if defined (MESH_DEBUG_PRINTF)
         printf("[DHCP] Request from ID %d\n", from_id);

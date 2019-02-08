@@ -26,6 +26,7 @@ typedef uint16_t address_t;
 #define MESH_DEFAULT_ADDRESS 04444
 #define MESH_MAX_ADDRESSES 255 /** Determines the max size of the array used for storing addresses on the Master Node */
 // #define MESH_ADDRESS_HOLD_TIME 30000 /** How long before a released address becomes available */
+#define DEFAULT_SS_VALUE 10001
 
 #ifdef MESH_DEBUG
     #if !defined (__linux) && !defined ARDUINO_SAM_DUE || defined TEENSY || defined(__ARDUINO_X86__)

@@ -116,6 +116,12 @@ public:
    */
   void setNodeID(nodeid_t nodeID);
 
+	/*
+		allows for a secure connection from master to slave and vice versa
+	*/
+
+	uint32_t getSecurityStatus();
+
  /**
   * Only to be used on the master node. Provides automatic configuration for sensor nodes, similar to DHCP.
   * Call immediately after calling network.update() to ensure address requests are handled appropriately
@@ -220,7 +226,6 @@ public:
 
   typedef struct {
 	address_t address;
-  uint16_t padding;  // NASTY HACK: Fixes alignment issue on 32-bit targets
 	nodeid_t nodeID;
   } addrListStruct;
 
@@ -254,5 +259,6 @@ public:
   uint32_t lastFileSave;
   uint8_t radio_channel;
   uint16_t lastID,lastAddress;
+	uint32_t securityID;
 
  };
