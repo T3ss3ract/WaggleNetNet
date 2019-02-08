@@ -21,14 +21,28 @@ uint32_t RF24Mesh::getSecurityStatus(nodeid_t nodeID) {
   }
 
 bool RF24MESH::verifySecurity(uint32_t security_value, nodeid_t nodeID) {
-  if(getNodeID()) {
-
+  if(getNodeID(nodeID)) {
+      if(security_value == ((uint32_t)nodeID ^ securityID)) { //if value sent is the security id XORed with the securityID, return true
+        return true;
+      }
+      else {
+        //TODO: error handling
+        //check old security values
+      }
   } //master
+  else {
+    return false;
+  }
 //TODO find a way to
+}
+
+uint32_t getCurrentSecurityID() {
+  return securityID;
 }
 
 uint32_t updateSecurityID(uint32_t new_value) {
   //TODO add code here to disseminate the new security value
+  if
 }
 
 /******************************/

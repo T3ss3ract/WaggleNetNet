@@ -122,6 +122,14 @@ public:
 
 	uint32_t getSecurityStatus();
 
+	//verify that the node hasn't been compromised
+	bool verifySecurity(uint32_t security_value, nodeid_t nodeID);
+
+	uint32_t getCurrentSecurityID();
+
+	//updates the security ID to
+	uint32_t updateSecurityID(uint32_t new_value);
+
  /**
   * Only to be used on the master node. Provides automatic configuration for sensor nodes, similar to DHCP.
   * Call immediately after calling network.update() to ensure address requests are handled appropriately
